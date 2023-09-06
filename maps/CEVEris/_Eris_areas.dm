@@ -579,6 +579,14 @@
 	name = "Chapel Rituals Room"
 	icon_state = "erisgreen"
 
+/area/eris/neotheology/chapelgreenery
+	name = "Chapel Garden"
+	icon_state = "erisgreen"
+
+/area/eris/neotheology/chapelcloningroom
+	name = "Chapel Cloning Room"
+	icon_state = "erisgreen"
+
 /area/eris/neotheology/altar
 	name = "Chapel Altar Room"
 	icon_state = "erisblue"
@@ -586,7 +594,7 @@
 /area/eris/neotheology/bioprinter
 	name = "Chapel Work Room"
 	icon_state = "purple"
-	
+
 /area/eris/neotheology/biogenerator
 	name = "\improper Church Biogenerator Room"
 	icon_state = "erisred"
