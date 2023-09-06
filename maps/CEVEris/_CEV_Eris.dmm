@@ -99151,6 +99151,9 @@
 	},
 /turf/simulated/floor/carpet/turcarpet,
 /area/eris/command/captain)
+"eMz" = (
+/turf/simulated/wall/r_wall,
+/area/eris/neotheology/chapelgreenery)
 "eMP" = (
 /obj/structure/bed/padded,
 /obj/item/bedsheet/purple,
@@ -100542,6 +100545,17 @@
 	},
 /turf/simulated/floor/tiled/dark/gray_platform,
 /area/eris/quartermaster/hangarsupply)
+"hIH" = (
+/obj/machinery/atmospherics/unary/vent_pump/on,
+/obj/machinery/button/remote/blast_door{
+	id = "last_shelter";
+	name = "Last shelter lock control";
+	req_access = list(74);
+	pixel_x = 24;
+	dir = 8
+	},
+/turf/simulated/floor/tiled/white/golden,
+/area/eris/neotheology/chapelcloningroom)
 "hMo" = (
 /obj/machinery/holomap{
 	dir = 8;
@@ -101571,6 +101585,9 @@
 /turf/simulated/wall,
 /turf/simulated/wall/r_wall,
 /area/eris/maintenance/section3deck4port)
+"jYZ" = (
+/turf/simulated/wall/r_wall,
+/area/eris/neotheology/chapelcloningroom)
 "jZP" = (
 /obj/machinery/light{
 	dir = 1
@@ -101922,9 +101939,6 @@
 "kLT" = (
 /turf/simulated/floor/carpet/gaycarpet,
 /area/eris/crew_quarters/clownoffice)
-"kNm" = (
-/turf/simulated/floor/tiled/white/golden,
-/area/eris/neotheology/chapelcloningroom)
 "kOD" = (
 /obj/structure/catwalk,
 /obj/structure/disposalpipe/junction{
@@ -104429,11 +104443,6 @@
 	},
 /turf/simulated/floor/wood,
 /area/eris/neotheology/churchbarracks)
-"qKT" = (
-/obj/effect/window_lwall_spawn/smartspawn,
-/obj/machinery/door/firedoor,
-/turf/simulated/floor/tiled/dark/gray_platform,
-/area/eris/neotheology/chapelgreenery)
 "qLb" = (
 /obj/spawner/junk/nondense,
 /turf/simulated/floor/tiled/techmaint,
@@ -104472,9 +104481,6 @@
 /obj/machinery/door/firedoor,
 /turf/simulated/floor/plating,
 /area/eris/rnd/lab)
-"qOw" = (
-/turf/simulated/wall/r_wall,
-/area/eris/neotheology/chapelcloningroom)
 "qOz" = (
 /obj/structure/cyberplant,
 /turf/simulated/floor/tiled/steel,
@@ -105750,6 +105756,9 @@
 /obj/item/deck/tarot,
 /turf/simulated/floor/dirt,
 /area/eris/neotheology/chapelgreenery)
+"tSW" = (
+/turf/simulated/floor/tiled/white/golden,
+/area/eris/neotheology/chapelcloningroom)
 "tTj" = (
 /obj/machinery/firealarm{
 	dir = 1;
@@ -106848,6 +106857,11 @@
 /obj/structure/table/rack,
 /turf/simulated/floor/tiled/steel/techfloor_grid,
 /area/eris/engineering/breakroom)
+"wuT" = (
+/obj/effect/window_lwall_spawn/smartspawn,
+/obj/machinery/door/firedoor,
+/turf/simulated/floor/tiled/dark/gray_platform,
+/area/eris/neotheology/chapelgreenery)
 "wwg" = (
 /obj/machinery/atmospherics/unary/vent_scrubber/on{
 	dir = 4
@@ -107089,9 +107103,6 @@
 	},
 /turf/simulated/floor/plating/under,
 /area/eris/maintenance/sorter)
-"xcX" = (
-/turf/simulated/wall/r_wall,
-/area/eris/neotheology/chapelgreenery)
 "xdz" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
@@ -161071,8 +161082,8 @@ cIS
 cIS
 aaa
 bUG
-xcX
-xcX
+eMz
+eMz
 ize
 cJu
 xCk
@@ -161273,7 +161284,7 @@ bWn
 cIS
 aaa
 abF
-xcX
+eMz
 mpG
 jYy
 wBy
@@ -161475,7 +161486,7 @@ cIS
 cIS
 aaa
 aaa
-xcX
+eMz
 xll
 ufk
 gJG
@@ -161677,7 +161688,7 @@ cJp
 cIS
 aaa
 aaa
-qKT
+wuT
 tSV
 rIK
 mYj
@@ -161879,7 +161890,7 @@ cIS
 cIS
 aaa
 aaa
-qKT
+wuT
 vIH
 rIK
 pSP
@@ -161887,7 +161898,7 @@ qBc
 wtq
 wiI
 fgq
-xcX
+eMz
 bTT
 bTT
 cFv
@@ -162081,7 +162092,7 @@ cIS
 aaa
 aaa
 aaa
-qKT
+wuT
 rZt
 rIK
 dPZ
@@ -162089,7 +162100,7 @@ sfs
 kvL
 vqN
 evn
-xcX
+eMz
 jgX
 jgX
 cFv
@@ -162283,7 +162294,7 @@ cIS
 aad
 aad
 aaa
-qKT
+wuT
 tSV
 rIK
 bQW
@@ -162291,7 +162302,7 @@ mWE
 qIb
 ouE
 yjh
-xcX
+eMz
 hQD
 hQD
 cFv
@@ -162485,7 +162496,7 @@ cIS
 aaa
 aaa
 aaa
-qKT
+wuT
 vIH
 rIK
 bCv
@@ -162687,7 +162698,7 @@ cJK
 aaa
 aaa
 aaa
-xcX
+eMz
 bQj
 vxx
 hOs
@@ -162889,7 +162900,7 @@ cJK
 aaa
 aaa
 aaa
-xcX
+eMz
 mpG
 pZe
 bzF
@@ -163091,7 +163102,7 @@ cIS
 cIS
 cIS
 aaa
-xcX
+eMz
 vxx
 vxx
 cBm
@@ -163099,7 +163110,7 @@ teI
 vfj
 qMK
 teI
-xcX
+eMz
 eaG
 eaG
 cFv
@@ -163293,12 +163304,12 @@ bqG
 brC
 cIS
 aaa
-qOw
-qOw
-qOw
+jYZ
+jYZ
+jYZ
 kkO
-qOw
-qOw
+jYZ
+jYZ
 ccU
 ccU
 ccU
@@ -163495,7 +163506,7 @@ bqJ
 brD
 cIS
 aaa
-qOw
+jYZ
 iuA
 xJw
 sWT
@@ -163697,12 +163708,12 @@ cIS
 cIS
 cIS
 aaa
-qOw
+jYZ
 ycs
 hXZ
 ciT
 hXZ
-kNm
+tSW
 xTu
 pHi
 pHi
@@ -163899,7 +163910,7 @@ cIS
 aaa
 aaa
 aaa
-qOw
+jYZ
 nuw
 hXZ
 wkJ
@@ -164101,7 +164112,7 @@ cIS
 aaa
 aaa
 aad
-qOw
+jYZ
 tpd
 hXZ
 ciT
@@ -164303,11 +164314,11 @@ cIS
 aaa
 aaa
 aaa
-qOw
+jYZ
 iLB
-kNm
+tSW
 quS
-kNm
+tSW
 gNV
 xTu
 pHi
@@ -164505,9 +164516,9 @@ bmx
 aad
 aad
 aaa
-qOw
+jYZ
 wCo
-xJw
+hIH
 tGY
 keu
 gNV
@@ -164707,7 +164718,7 @@ bmx
 bmx
 abF
 abF
-qOw
+jYZ
 ciU
 ciU
 ixy
@@ -164909,9 +164920,9 @@ boj
 bmx
 abF
 abF
-qOw
+jYZ
 xuy
-kNm
+tSW
 rBd
 bid
 gNV
@@ -165111,7 +165122,7 @@ cpR
 bmx
 abF
 abF
-qOw
+jYZ
 xsX
 xJw
 bRk
@@ -165313,7 +165324,7 @@ bnV
 bmx
 abF
 abF
-qOw
+jYZ
 oUj
 tfK
 hPw
