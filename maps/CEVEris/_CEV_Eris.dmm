@@ -104095,7 +104095,7 @@
 	},
 /obj/structure/disposalpipe/segment,
 /turf/simulated/floor/tiled/dark/gray_platform,
-/area/eris/neotheology/chapelritualroom)
+/area/eris/neotheology/chapelcloningroom)
 "pVZ" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -105074,7 +105074,7 @@
 /obj/machinery/door/firedoor,
 /obj/effect/window_lwall_spawn/smartspawn,
 /turf/simulated/floor/tiled/dark/gray_platform,
-/area/eris/neotheology/storage)
+/area/eris/neotheology/chapelcloningroom)
 "sug" = (
 /obj/machinery/light,
 /turf/simulated/floor/tiled/dark/golden,
@@ -105123,6 +105123,9 @@
 	},
 /turf/simulated/floor/tiled/steel,
 /area/eris/hallway/main/section3)
+"szZ" = (
+/turf/simulated/wall,
+/area/eris/neotheology/chapelritualroom)
 "sAd" = (
 /obj/structure/cable/green{
 	d1 = 1;
@@ -107115,7 +107118,7 @@
 /obj/machinery/door/firedoor,
 /obj/machinery/door/holy,
 /turf/simulated/floor/tiled/dark/gray_platform,
-/area/eris/neotheology/storage)
+/area/eris/neotheology/chapelritualroom)
 "xdY" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/supply{
 	dir = 4
@@ -107439,7 +107442,7 @@
 /obj/effect/window_lwall_spawn/smartspawn,
 /obj/machinery/door/firedoor,
 /turf/simulated/floor/tiled/dark/gray_platform,
-/area/eris/neotheology/chapelritualroom)
+/area/eris/neotheology/chapelcloningroom)
 "xTT" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
 	dir = 4
@@ -161700,12 +161703,12 @@ cJu
 cJu
 cJu
 cJu
-bUG
-bUG
-bUG
-bUG
-bUG
-bUG
+cFv
+cFv
+cFv
+cFv
+cFv
+cFv
 abF
 aCM
 aCM
@@ -163310,14 +163313,14 @@ jYZ
 kkO
 jYZ
 jYZ
-ccU
+jYZ
 ccU
 ccU
 ccU
 ccU
 ccU
 jal
-cwr
+szZ
 uVI
 cwr
 cwr
@@ -163519,7 +163522,7 @@ sPZ
 qBj
 bUT
 pAJ
-cwr
+szZ
 hav
 lUT
 nUt
@@ -163721,7 +163724,7 @@ pHi
 nIq
 pHi
 auS
-stV
+stI
 rOR
 qHh
 wcb
@@ -163923,7 +163926,7 @@ vMW
 bTA
 pVh
 xHE
-stV
+stI
 rOR
 mtZ
 foB
@@ -164118,7 +164121,7 @@ hXZ
 ciT
 hXZ
 gNV
-stI
+stV
 pHi
 utY
 pHi
@@ -164327,7 +164330,7 @@ cBo
 pHi
 pHi
 lje
-stV
+stI
 leT
 czY
 inS
@@ -164529,7 +164532,7 @@ bQx
 pHi
 pHi
 crJ
-cwr
+szZ
 uLw
 kif
 cCA
@@ -164724,14 +164727,14 @@ ciU
 ixy
 ciU
 ePa
-ccU
+jYZ
 ijf
 bQZ
 bQx
 pHi
 pHi
 cvm
-dHB
+ccU
 dHB
 dHB
 dHB
@@ -164926,7 +164929,7 @@ tSW
 rBd
 bid
 gNV
-ccU
+jYZ
 bQx
 bQx
 udR
@@ -165128,7 +165131,7 @@ xJw
 bRk
 kKJ
 gNV
-ccU
+jYZ
 ccU
 ccU
 ccU
@@ -165330,7 +165333,7 @@ tfK
 hPw
 kcR
 wgk
-ccU
+jYZ
 cPv
 cPv
 cPv
