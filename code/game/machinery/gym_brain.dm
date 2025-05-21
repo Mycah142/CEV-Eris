@@ -55,13 +55,13 @@
 			playsound(loc, "robot_talk_light", 100, 0, 0)
 
 		if(occupant.rest_points > 0)
-			to_chat(occupant, SPAN_NOTICE("You feel yourself become smarter..."))
+			to_chat(occupant, span_notice("You feel yourself become smarter..."))
 			occupant.playsound_local(get_turf(occupant), 'sound/sanity/rest.ogg', 100)
 			occupant.stats.changeStat(stat_used, rand(15, 20))
 			occupant.rest_points--
 
 		else
-			to_chat(occupant, SPAN_NOTICE("You did become smarter, you think... But not permanently. Perhaps you need to rest first?"))
+			to_chat(occupant, span_notice("You did become smarter, you think... But not permanently. Perhaps you need to rest first?"))
 			occupant.stats.addTempStat(stat_used, 15, 10 MINUTES)
 
 		occupant.stats.addPerk(PERK_COOLDOWN_REASON)
@@ -84,15 +84,15 @@
 		return
 
 	if(user.stats.getPerk(PERK_COOLDOWN_REASON))
-		to_chat(user, SPAN_WARNING("Your mind feels too dim to properly use this. You need to rest before you exercise again."))
+		to_chat(user, span_warning("Your mind feels too dim to properly use this. You need to rest before you exercise again."))
 		return
 
 	if(!unlocked && !emagged)
-		state(SPAN_WARNING("A payment ticket is required to use this machine."))
+		state(span_warning("A payment ticket is required to use this machine."))
 		return
 
 	if(occupant)
-		to_chat(user, SPAN_WARNING("The machine is already occupied!"))
+		to_chat(user, span_warning("The machine is already occupied!"))
 		return
 
 	user.forceMove(src)
