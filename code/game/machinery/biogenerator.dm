@@ -39,6 +39,17 @@
 			list(name="Hotsauce, 30u", cost=60, reagent="capsaicin"),
 			list(name="Coldsauce, 30u", cost=60, reagent="frostoil"),
 
+		"Junk Food",
+			list(name="LiquidFood Ration", cost=60, path=/obj/item/reagent_containers/food/snacks/liquidfood),
+			list(name="Bread Tube", cost=60, path=/obj/item/reagent_containers/food/snacks/tastybread),
+			list(name="Chips", cost=40, path=/obj/item/reagent_containers/food/snacks/chips),
+			list(name="Popcorn", cost=40, path=/obj/item/reagent_containers/food/snacks/popcorn),
+			list(name="Jerky", cost=60, path=/obj/item/reagent_containers/food/snacks/sosjerky),
+			list(name="Raisins", cost=40, path=/obj/item/reagent_containers/food/snacks/no_raisin),
+			list(name="Space Twinkie", cost=60, path=/obj/item/reagent_containers/food/snacks/spacetwinkie),
+			list(name="Cheesie Honkers", cost=60, path=/obj/item/reagent_containers/food/snacks/cheesiehonkers),
+
+
 		"Nutrient",
 			list(name="EZ-Nutrient, 30u", cost=30, reagent="eznutrient"),
 			list(name="Left4Zed, 30u", cost=60, reagent="left4zed"),
