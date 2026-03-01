@@ -25,7 +25,7 @@
 			list(name="Spaghetti", cost=40, path=/obj/item/reagent_containers/food/snacks/spaghetti),
 			list(name="Chocolate bar", cost=40, path/obj/item/reagent_containers/food/snacks/chocolatebar),
 
-		"Liquid Food"
+		"Liquid Food",
 			list(name="Milk, 30u", cost=60, reagent="milk"),
 			list(name="Soy Milk 30u", cost=60, reagent="soymilk"),
 			list(name="Universal Enzyme, 30u", cost=75, reagent="enzyme"),
