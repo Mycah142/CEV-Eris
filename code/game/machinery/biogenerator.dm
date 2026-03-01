@@ -19,11 +19,11 @@
 		"Food",
 			list(name="Stick of butter", cost=60, path=/obj/item/reagent_containers/food/snacks/sliceable/butterstick),
 			list(name="Slab of meat", cost=50, path=/obj/item/reagent_containers/food/snacks/meat),
-			list(name="Raw meatball", cost=40, path=/obj/item/reagent_containers/food/snacks/meatball_raw),
+			list(name="Raw meatball", cost=40, path=/obj/item/reagent_containers/food/snacks/rawmeatball),
 			list(name="Box of eggs", cost=200, path=/obj/item/storage/fancy/egg_box),
 			list(name="Dough", cost=60, path=/obj/item/reagent_containers/food/snacks/dough),
 			list(name="Spaghetti", cost=40, path=/obj/item/reagent_containers/food/snacks/spaghetti),
-			list(name="Chocolate bar", cost=40, path/obj/item/reagent_containers/food/snacks/chocolatebar),
+			list(name="Chocolate bar", cost=40, path=/obj/item/reagent_containers/food/snacks/chocolatebar),
 
 		"Liquid Food",
 			list(name="Milk, 30u", cost=60, reagent="milk"),
