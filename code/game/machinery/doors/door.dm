@@ -496,7 +496,7 @@
 /obj/machinery/door/update_nearby_tiles(need_rebuild)
 	for(var/turf/turf in locs)
 		if(turf.is_simulated)
-			SSair.mark_for_update(turf)
+			SSzas.mark_for_update(turf)
 	return TRUE
 
 /obj/machinery/door/proc/update_heat_protection(turf/source)

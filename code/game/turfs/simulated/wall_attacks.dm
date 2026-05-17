@@ -93,7 +93,7 @@
 					window_damage_resistance = null
 					blocks_air = FALSE
 					update_icon()
-					SSair.mark_for_update(src)
+					SSzas.mark_for_update(src)
 					to_chat(user, span_notice("You pry the glass out of the frame."))
 			else if(deconstruction_steps_left == 4) // Progressing deconstruction
 				if(I.use_tool(user, src, WORKTIME_NORMAL, tool_type, FAILCHANCE_NORMAL, required_stat = STAT_MEC))

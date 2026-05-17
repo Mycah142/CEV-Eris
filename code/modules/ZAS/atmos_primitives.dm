@@ -7,26 +7,29 @@
 	In the case of free-flowing gas you can do things with gas and still use 0 power, hence the distinction between negative and non-negative return values.
 */
 
-
+/*
 /obj/machinery/atmospherics/var/last_flow_rate = 0
 /obj/machinery/atmospherics/var/last_power_draw = 0
 /obj/machinery/portable_atmospherics/var/last_flow_rate = 0
 
+*/
 
-/obj/machinery/atmospherics/var/debug = 0
 
-/client/proc/atmos_toggle_debug(obj/machinery/atmospherics/M in range(world.view))
+///obj/machinery/atmospherics/var/debug = 0
+
+/*/client/proc/atmos_toggle_debug(obj/machinery/atmospherics/M in world)
 	set name = "Toggle Debug Messages"
 	set category = "Debug"
 	M.debug = !M.debug
-	to_chat(usr, "[M]: Debug messages toggled [M.debug? "on" : "off"].")
+	to_chat(usr, "[M]: Debug messages toggled [M.debug? "on" : "off"].")*/
 
 //Generalized gas pumping proc.
 //Moves gas from one gas_mixture to another and returns the amount of power needed (assuming 1 second), or -1 if no gas was pumped.
 //transfer_moles - Limits the amount of moles to transfer. The actual amount of gas moved may also be limited by available_power, if given.
 //available_power - the maximum amount of power that may be used when moving gas. If null then the transfer is not limited by power.
-/proc/pump_gas(obj/machinery/M, datum/gas_mixture/source, datum/gas_mixture/sink, transfer_moles, available_power)
-	if (source.total_moles < MINIMUM_MOLES_TO_PUMP) //if we cant transfer enough gas just stop to avoid further processing
+/proc/pump_gas(datum/gas_mixture/source, datum/gas_mixture/sink, transfer_moles = null, available_power = null)
+	if (source.total_moles < MINIMUM_MOLES_TO_PUMP)
+		sink.merge(source.remove(INFINITY))
 		return -1
 
 	if (isnull(transfer_moles))
@@ -39,23 +42,8 @@
 	if (!isnull(available_power) && specific_power > 0)
 		transfer_moles = min(transfer_moles, available_power / specific_power)
 
-	if (transfer_moles < MINIMUM_MOLES_TO_PUMP) //if we cant transfer enough gas just stop to avoid further processing
+	if (transfer_moles < MINIMUM_MOLES_TO_PUMP) //if we can't transfer enough gas just stop to avoid further processing
 		return -1
-
-	//Update flow rate meter
-	if (istype(M, /obj/machinery/atmospherics))
-		var/obj/machinery/atmospherics/A = M
-		A.last_flow_rate = (transfer_moles/source.total_moles)*source.volume //group_multiplier gets divided out here
-
-		if (A.debug)
-			A.visible_message("[A]: source entropy: [round(source.specific_entropy(), 0.01)] J/Kmol --> sink entropy: [round(sink.specific_entropy(), 0.01)] J/Kmol")
-			A.visible_message("[A]: specific entropy change = [round(sink.specific_entropy() - source.specific_entropy(), 0.01)] J/Kmol")
-			A.visible_message("[A]: specific power = [round(specific_power, 0.1)] W/mol")
-			A.visible_message("[A]: moles transferred = [transfer_moles] mol")
-
-	if (istype(M, /obj/machinery/portable_atmospherics))
-		var/obj/machinery/portable_atmospherics/P = M
-		P.last_flow_rate = (transfer_moles/source.total_moles)*source.volume //group_multiplier gets divided out here
 
 	var/datum/gas_mixture/removed = source.remove(transfer_moles)
 	if (!removed) //Just in case
@@ -68,8 +56,8 @@
 	return power_draw
 
 //Gas 'pumping' proc for the case where the gas flow is passive and driven entirely by pressure differences (but still one-way).
-/proc/pump_gas_passive(obj/machinery/M, datum/gas_mixture/source, datum/gas_mixture/sink, transfer_moles = null)
-	if (source.total_moles < MINIMUM_MOLES_TO_PUMP) //if we cant transfer enough gas just stop to avoid further processing
+/proc/pump_gas_passive(datum/gas_mixture/source, datum/gas_mixture/sink, transfer_moles = null)
+	if (source.total_moles < MINIMUM_MOLES_TO_PUMP) //if we can't transfer enough gas just stop to avoid further processing
 		return -1
 
 	if (isnull(transfer_moles))
@@ -83,6 +71,7 @@
 	if (transfer_moles < MINIMUM_MOLES_TO_PUMP) //if we cant transfer enough gas just stop to avoid further processing
 		return -1
 
+	/*
 	//Update flow rate meter
 	if (istype(M, /obj/machinery/atmospherics))
 		var/obj/machinery/atmospherics/A = M
@@ -93,6 +82,7 @@
 	if (istype(M, /obj/machinery/portable_atmospherics))
 		var/obj/machinery/portable_atmospherics/P = M
 		P.last_flow_rate = (transfer_moles/source.total_moles)*source.volume //group_multiplier gets divided out here
+	*/
 
 	var/datum/gas_mixture/removed = source.remove(transfer_moles)
 	if(!removed) //Just in case
@@ -106,7 +96,7 @@
 //filtering - A list of gasids to be scrubbed from source
 //total_transfer_moles - Limits the amount of moles to scrub. The actual amount of gas scrubbed may also be limited by available_power, if given.
 //available_power - the maximum amount of power that may be used when scrubbing gas. If null then the scrubbing is not limited by power.
-/proc/scrub_gas(obj/machinery/M, list/filtering, datum/gas_mixture/source, datum/gas_mixture/sink, total_transfer_moles = null, available_power = null)
+/proc/scrub_gas(list/filtering, datum/gas_mixture/source, datum/gas_mixture/sink, total_transfer_moles = null, available_power = null)
 	if (source.total_moles < MINIMUM_MOLES_TO_FILTER) //if we cant transfer enough gas just stop to avoid further processing
 		return -1
 
@@ -117,13 +107,18 @@
 	var/list/specific_power_gas = list()	//the power required to remove one mole of pure gas, for each gas type
 	for (var/g in filtering)
 		if (source.gas[g] < MINIMUM_MOLES_TO_FILTER)
+			total_filterable_moles += source.gas[g] //Just get rid of it, ffs
 			continue
 
 		var/specific_power = calculate_specific_power_gas(g, source, sink)/ATMOS_FILTER_EFFICIENCY
 		specific_power_gas[g] = specific_power
 		total_filterable_moles += source.gas[g]
 
-	if (total_filterable_moles < MINIMUM_MOLES_TO_FILTER) //if we cant transfer enough gas just stop to avoid further processing
+	///Just transfer it, who really cares at a scale this small.
+	if (total_filterable_moles < MINIMUM_MOLES_TO_FILTER)
+		for(var/g in filtering)
+			source.setGasMoles(g, 0)
+			sink.adjustGasWithTemp(g, source.gas[g] * source.group_multiplier, source.temperature)
 		return -1
 
 	//now that we know the total amount of filterable gas, we can calculate the amount of power needed to scrub one mole of gas
@@ -145,14 +140,6 @@
 	if (total_transfer_moles < MINIMUM_MOLES_TO_FILTER) //if we cant transfer enough gas just stop to avoid further processing
 		return -1
 
-	//Update flow rate var
-	if (istype(M, /obj/machinery/atmospherics))
-		var/obj/machinery/atmospherics/A = M
-		A.last_flow_rate = (total_transfer_moles/source.total_moles)*source.volume //group_multiplier gets divided out here
-	if (istype(M, /obj/machinery/portable_atmospherics))
-		var/obj/machinery/portable_atmospherics/P = M
-		P.last_flow_rate = (total_transfer_moles/source.total_moles)*source.volume //group_multiplier gets divided out here
-
 	var/power_draw = 0
 	for (var/g in filtering)
 		var/transfer_moles = source.gas[g]
@@ -160,14 +147,14 @@
 		transfer_moles = min(transfer_moles, total_transfer_moles*(source.gas[g]/total_filterable_moles))
 
 		//use update=0. All the filtered gasses are supposed to be added simultaneously, so we update after the for loop.
-		source.adjust_gas(g, -transfer_moles, update=0)
-		sink.adjust_gas_temp(g, transfer_moles, source.temperature, update=0)
+		source.adjustGas(g, -transfer_moles, update=0)
+		sink.adjustGasWithTemp(g, transfer_moles, source.temperature, update=0)
 
 		power_draw += specific_power_gas[g]*transfer_moles
 
 	//Remix the resulting gases
-	sink.update_values()
-	source.update_values()
+	sink.garbageCollect()
+	source.garbageCollect()
 
 	return power_draw
 
@@ -177,7 +164,7 @@
 //filtering - A list of gasids to be filtered. These gasses get moved to sink_filtered, while the other gasses get moved to sink_clean.
 //total_transfer_moles - Limits the amount of moles to input. The actual amount of gas filtered may also be limited by available_power, if given.
 //available_power - the maximum amount of power that may be used when filtering gas. If null then the filtering is not limited by power.
-/proc/filter_gas(obj/machinery/M, list/filtering, datum/gas_mixture/source, datum/gas_mixture/sink_filtered, datum/gas_mixture/sink_clean, total_transfer_moles = null, available_power = null)
+/proc/filter_gas(list/filtering, datum/gas_mixture/source, datum/gas_mixture/sink_filtered, datum/gas_mixture/sink_clean, total_transfer_moles = null, available_power = null)
 	if (source.total_moles < MINIMUM_MOLES_TO_FILTER) //if we cant transfer enough gas just stop to avoid further processing
 		return -1
 
@@ -214,14 +201,6 @@
 	if (total_transfer_moles < MINIMUM_MOLES_TO_FILTER) //if we cant transfer enough gas just stop to avoid further processing
 		return -1
 
-	//Update flow rate var
-	if (istype(M, /obj/machinery/atmospherics))
-		var/obj/machinery/atmospherics/A = M
-		A.last_flow_rate = (total_transfer_moles/source.total_moles)*source.volume //group_multiplier gets divided out here
-	if (istype(M, /obj/machinery/portable_atmospherics))
-		var/obj/machinery/portable_atmospherics/P = M
-		P.last_flow_rate = (total_transfer_moles/source.total_moles)*source.volume //group_multiplier gets divided out here
-
 	var/datum/gas_mixture/removed = source.remove(total_transfer_moles)
 	if (!removed) //Just in case
 		return -1
@@ -230,26 +209,25 @@
 	var/unfiltered_power_used = 0	//power used to move unfilterable gas to sink_clean
 	for (var/g in removed.gas)
 		var/power_used = specific_power_gas[g]*removed.gas[g]
-
 		if (g in filtering)
 			//use update=0. All the filtered gasses are supposed to be added simultaneously, so we update after the for loop.
-			sink_filtered.adjust_gas_temp(g, removed.gas[g], removed.temperature, update=0)
-			removed.adjust_gas(g, -removed.gas[g], update=0)
+			sink_filtered.adjustGasWithTemp(g, removed.gas[g], removed.temperature, update=0)
+			removed.adjustGas(g, -removed.gas[g], update=0)
 			filtered_power_used += power_used
 		else
 			unfiltered_power_used += power_used
 
-	sink_filtered.update_values()
-	removed.update_values()
+	sink_filtered.garbageCollect()
+	removed.garbageCollect()
 
 	sink_clean.merge(removed)
 
 	return filtered_power_used + unfiltered_power_used
 
 //For omni devices. Instead filtering is an associative list mapping gasids to gas mixtures.
-//I don't like the copypasta, but I decided to keep both versions of gas filtering as filter_gas is slightly faster (doesn't create as many temporary lists, doesn't call update_values() as much)
+//I don't like the copypasta, but I decided to keep both versions of gas filtering as filter_gas is slightly faster (doesn't create as many temporary lists, doesn't call updateValues() as much)
 //filter_gas can be removed and replaced with this proc if need be.
-/proc/filter_gas_multi(obj/machinery/M, list/filtering, datum/gas_mixture/source, datum/gas_mixture/sink_clean, total_transfer_moles = null, available_power = null)
+/proc/filter_gas_multi(list/filtering, datum/gas_mixture/source, datum/gas_mixture/sink_clean, total_transfer_moles = null, available_power = null)
 	if (source.total_moles < MINIMUM_MOLES_TO_FILTER) //if we cant transfer enough gas just stop to avoid further processing
 		return -1
 
@@ -286,14 +264,6 @@
 
 	if (total_transfer_moles < MINIMUM_MOLES_TO_FILTER) //if we cant transfer enough gas just stop to avoid further processing
 		return -1
-
-	//Update Flow Rate var
-	if (istype(M, /obj/machinery/atmospherics))
-		var/obj/machinery/atmospherics/A = M
-		A.last_flow_rate = (total_transfer_moles/source.total_moles)*source.volume //group_multiplier gets divided out here
-	if (istype(M, /obj/machinery/portable_atmospherics))
-		var/obj/machinery/portable_atmospherics/P = M
-		P.last_flow_rate = (total_transfer_moles/source.total_moles)*source.volume //group_multiplier gets divided out here
 
 	var/datum/gas_mixture/removed = source.remove(total_transfer_moles)
 	if (!removed) //Just in case
@@ -307,14 +277,14 @@
 		if (g in filtering)
 			var/datum/gas_mixture/sink_filtered = filtering[g]
 			//use update=0. All the filtered gasses are supposed to be added simultaneously, so we update after the for loop.
-			sink_filtered.adjust_gas_temp(g, removed.gas[g], removed.temperature, update=1)
-			removed.adjust_gas(g, -removed.gas[g], update=0)
+			sink_filtered.adjustGasWithTemp(g, removed.gas[g], removed.temperature, update=1)
+			removed.adjustGas(g, -removed.gas[g], update=0)
 			if (power_used)
 				filtered_power_used[sink_filtered] = power_used
 		else
 			unfiltered_power_used += power_used
 
-	removed.update_values()
+	removed.garbageCollect()
 
 	var/power_draw = unfiltered_power_used
 	for (var/datum/gas_mixture/sink_filtered in filtered_power_used)
@@ -326,7 +296,7 @@
 
 //Similar deal as the other atmos process procs.
 //mix_sources maps input gas mixtures to mix ratios. The mix ratios MUST add up to 1.
-/proc/mix_gas(obj/machinery/M, list/mix_sources, datum/gas_mixture/sink, total_transfer_moles, available_power)
+/proc/mix_gas(list/mix_sources, datum/gas_mixture/sink, total_transfer_moles = null, available_power = null)
 	if (!mix_sources.len)
 		return -1
 
@@ -368,6 +338,7 @@
 	if (total_transfer_moles < MINIMUM_MOLES_TO_FILTER) //if we cant transfer enough gas just stop to avoid further processing
 		return -1
 
+	/*
 	//Update flow rate var
 	if (istype(M, /obj/machinery/atmospherics))
 		var/obj/machinery/atmospherics/A = M
@@ -375,6 +346,7 @@
 	if (istype(M, /obj/machinery/portable_atmospherics))
 		var/obj/machinery/portable_atmospherics/P = M
 		P.last_flow_rate = (total_transfer_moles/total_input_moles)*total_input_volume //group_multiplier gets divided out here
+	*/
 
 	var/total_power_draw = 0
 	for (var/datum/gas_mixture/source in mix_sources)
@@ -401,7 +373,7 @@
 /proc/calculate_specific_power(datum/gas_mixture/source, datum/gas_mixture/sink)
 	//Calculate the amount of energy required
 	var/air_temperature = (sink.temperature > 0)? sink.temperature : source.temperature
-	var/specific_entropy = sink.specific_entropy() - source.specific_entropy() //sink is gaining moles, source is loosing
+	var/specific_entropy = sink.specificGroupEntropy() - source.specificGroupEntropy() //sink is gaining moles, source is loosing
 	var/specific_power = 0	// W/mol
 
 	//If specific_entropy is < 0 then power is required to move gas
@@ -414,7 +386,7 @@
 /proc/calculate_specific_power_gas(gasid, datum/gas_mixture/source, datum/gas_mixture/sink)
 	//Calculate the amount of energy required
 	var/air_temperature = (sink.temperature > 0)? sink.temperature : source.temperature
-	var/specific_entropy = sink.specific_entropy_gas(gasid) - source.specific_entropy_gas(gasid) //sink is gaining moles, source is loosing
+	var/specific_entropy = sink.specificEntropyGas(gasid) - source.specificEntropyGas(gasid) //sink is gaining moles, source is loosing
 	var/specific_power = 0	// W/mol
 
 	//If specific_entropy is < 0 then power is required to move gas
@@ -436,10 +408,16 @@
 	if(sink.total_moles > 0 && sink.temperature > 0)
 		//estimate the final temperature of the sink after transfer
 		var/estimate_moles = pressure_delta*output_volume/(sink.temperature * R_IDEAL_GAS_EQUATION)
-		var/sink_heat_capacity = sink.heat_capacity()
-		var/transfer_heat_capacity = source.heat_capacity()*estimate_moles/source_total_moles
+		var/sink_heat_capacity = sink.getHeatCapacity()
+		var/transfer_heat_capacity = source.getHeatCapacity()*estimate_moles/source_total_moles
 		air_temperature = (sink.temperature*sink_heat_capacity  + source.temperature*transfer_heat_capacity) / (sink_heat_capacity + transfer_heat_capacity)
 
+	#ifdef UNIT_TESTS
+	if(air_temperature == 0)
+		CRASH("Air temperature is 0. Source: ([json_encode(source.gas)], [source.temperature] | Sink: ([json_encode(sink.gas)], [sink.temperature])")
+	if((output_volume/(air_temperature*R_IDEAL_GAS_EQUATION)) == 0)
+		CRASH("Transfer moles is about to divide by 0. Source Total Moles: [source_total_moles] | Output Volume: [output_volume]")
+	#endif
 	//get the number of moles that would have to be transfered to bring sink to the target pressure
 	return pressure_delta*output_volume/(air_temperature * R_IDEAL_GAS_EQUATION)
 
@@ -451,8 +429,8 @@
 	var/source_volume = source.volume * source.group_multiplier
 	var/sink_volume = sink.volume * sink.group_multiplier
 
-	var/source_pressure = source.return_pressure()
-	var/sink_pressure = sink.return_pressure()
+	var/source_pressure = source.returnPressure()
+	var/sink_pressure = sink.returnPressure()
 
 	return (source_pressure - sink_pressure)/(R_IDEAL_GAS_EQUATION * (source.temperature/source_volume + sink.temperature/sink_volume))
 
@@ -460,57 +438,7 @@
 // - Is between 80 and 120kPa
 // - Has between 17% and 30% oxygen
 // - Has temperature between -10C and 50C
-// - Has no or only minimal plasma or N2O
-/proc/is_safe_atmosphere(datum/gas_mixture/atmosphere, returntext = 0)
-    var/list/status = list()
-    if(!atmosphere)
-        status.Add("No atmosphere present.")
-
-    // Temperature check
-    if((atmosphere.temperature > (T0C + 50)) || (atmosphere.temperature < (T0C - 10)))
-        status.Add("Temperature too [atmosphere.temperature > (T0C + 50) ? "high" : "low"].")
-
-    // Pressure check
-    var/pressure = atmosphere.return_pressure()
-    if((pressure > 120) || (pressure < 80))
-        status.Add("Pressure too [pressure > 120 ? "high" : "low"].")
-
-    // Gas concentration checks
-    var/oxygen = 0
-    var/plasma = 0
-    var/carbondioxide = 0
-    var/nitrousoxide = 0
-    if(atmosphere.total_moles) // Division by zero prevention
-        oxygen = (atmosphere.gas["oxygen"] / atmosphere.total_moles) * 100 // Percentage of the gas
-        plasma = (atmosphere.gas["plasma"] / atmosphere.total_moles) * 100
-        carbondioxide = (atmosphere.gas["carbon_dioxide"] / atmosphere.total_moles) * 100
-        nitrousoxide = (atmosphere.gas["sleeping_agent"] / atmosphere.total_moles) * 100
-
-    if(!oxygen)
-        status.Add("No oxygen.")
-    else if((oxygen > 30) || (oxygen < 17))
-        status.Add("Oxygen too [oxygen > 30 ? "high" : "low"].")
-
-
-
-    if(plasma > 0.1)        // Toxic even in small amounts.
-        status.Add("Plasma contamination.")
-    if(nitrousoxide > 0.1)    // Probably slightly less dangerous but still.
-        status.Add("N2O contamination.")
-    if(carbondioxide > 5)    // Not as dangerous until very large amount is present.
-        status.Add("CO2 concentration high.")
-
-
-    if(returntext)
-        return jointext(status, " ")
-    else
-        return status.len
-
-//Determines if the atmosphere is safe (for humans). Safe atmosphere:
-// - Is between 80 and 120kPa
-// - Has between 17% and 30% oxygen
-// - Has temperature between -10C and 50C
-// - Has no or only minimal plasma or N2O
+// - Has no or only minimal phoron or N2O
 /proc/get_atmosphere_issues(datum/gas_mixture/atmosphere, returntext = 0)
 	var/list/status = list()
 	if(!atmosphere)
@@ -521,22 +449,22 @@
 		status.Add("Temperature too [atmosphere.temperature > (T0C + 50) ? "high" : "low"].")
 
 	// Pressure check
-	var/pressure = atmosphere.return_pressure()
+	var/pressure = atmosphere.returnPressure()
 	if((pressure > 120) || (pressure < 80))
 		status.Add("Pressure too [pressure > 120 ? "high" : "low"].")
 
 	// Gas concentration checks
 	var/oxygen = 0
-	var/plasma = 0
+	var/phoron = 0
 	var/carbondioxide = 0
 	var/nitrousoxide = 0
 	var/hydrogen = 0
 	if(atmosphere.total_moles) // Division by zero prevention
-		oxygen = (atmosphere.gas["oxygen"] / atmosphere.total_moles) * 100 // Percentage of the gas
-		plasma = (atmosphere.gas["plasma"] / atmosphere.total_moles) * 100
-		carbondioxide = (atmosphere.gas["carbon_dioxide"] / atmosphere.total_moles) * 100
-		nitrousoxide = (atmosphere.gas["sleeping_agent"] / atmosphere.total_moles) * 100
-		hydrogen = (atmosphere.gas["hydrogen"] / atmosphere.total_moles) * 100
+		oxygen = (atmosphere.gas[GAS_OXYGEN] / atmosphere.total_moles) * 100 // Percentage of the gas
+		phoron = (atmosphere.gas[GAS_PLASMA] / atmosphere.total_moles) * 100
+		carbondioxide = (atmosphere.gas[GAS_CO2] / atmosphere.total_moles) * 100
+		nitrousoxide = (atmosphere.gas[GAS_N2O] / atmosphere.total_moles) * 100
+		hydrogen = (atmosphere.gas[GAS_HYDROGEN] / atmosphere.total_moles) * 100
 
 	if(!oxygen)
 		status.Add("No oxygen.")
@@ -545,8 +473,8 @@
 
 
 
-	if(plasma > 0.1)		// Toxic even in small amounts.
-		status.Add("Plasma contamination.")
+	if(phoron > 0.1)		// Toxic even in small amounts.
+		status.Add("Phoron contamination.")
 	if(nitrousoxide > 0.1)	// Probably slightly less dangerous but still.
 		status.Add("N2O contamination.")
 	if(hydrogen > 2.5)	// Not too dangerous, but flammable.
@@ -560,24 +488,27 @@
 	else
 		return status.len
 
-// Gets target gas mixtures from either just the location turf, or a 3x3 radius.
-// Used by air vents and air scrubbers.
-/proc/get_target_environments(obj/machinery/M, expanded = FALSE)
-	var/turf/loc_turf = get_turf(M)
-	var/datum/gas_mixture/environment = loc_turf.return_air()
-	var/list/target_environments = environment ? list(environment) : list()
+//surface must be the surface area in m^2
+/proc/radiate_heat_to_space(datum/gas_mixture/air, surface, thermal_conductivity)
+	var/gas_density = air.total_moles/air.volume
+	thermal_conductivity *= min(gas_density / ( RADIATOR_OPTIMUM_PRESSURE/(R_IDEAL_GAS_EQUATION*GAS_CRITICAL_TEMPERATURE) ), 1) //mult by density ratio
 
-	if(!expanded)
-		return target_environments
+	var/heat_gain = get_thermal_radiation(air.temperature, surface, RADIATOR_EXPOSED_SURFACE_AREA_RATIO, thermal_conductivity)
 
-	for(var/turf/T in orange(1, loc_turf))
-		if(SSzas.air_blocked(loc_turf, T) & AIR_BLOCKED)
-			continue
+	air.adjustThermalEnergy(heat_gain)
 
-		environment = T.return_air()
-		if(!environment)
-			continue
-		target_environments += environment
+//Returns the amount of heat gained while in space due to thermal radiation (usually a negative value)
+//surface - the surface area in m^2
+//exposed_surface_ratio - the proportion of the surface that is exposed to sunlight
+//thermal_conductivity - a multipler on the heat transfer rate. See OPEN_HEAT_TRANSFER_COEFFICIENT and friends
+/proc/get_thermal_radiation(surface_temperature, surface, exposed_surface_ratio, thermal_conductivity)
+	//*** Gain heat from sunlight, then lose heat from radiation.
 
-	return target_environments
+	// We only get heat from the star on the exposed surface area.
+	// If the HE pipes gain more energy from AVERAGE_SOLAR_RADIATION than they can radiate, then they have a net heat increase.
+	. = AVERAGE_SOLAR_RADIATION * (exposed_surface_ratio * surface) * thermal_conductivity
 
+	// Previously, the temperature would enter equilibrium at 26C or 294K.
+	// Only would happen if both sides (all 2 square meters of surface area) were exposed to sunlight.  We now assume it aligned edge on.
+	// It currently should stabilise at 129.6K or -143.6C
+	. -= surface * STEFAN_BOLTZMANN_CONSTANT * thermal_conductivity * (surface_temperature - COSMIC_RADIATION_TEMPERATURE) ** 4

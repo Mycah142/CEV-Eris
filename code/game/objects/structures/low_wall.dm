@@ -101,7 +101,7 @@
 	window_damage_resistance = null
 	blocks_air = FALSE
 	update_icon()
-	SSair.mark_for_update(src)
+	SSzas.mark_for_update(src)
 
 /turf/wall/low/create_window(material)
 	ASSERT(material)
@@ -136,7 +136,7 @@
 			window_damage_resistance = RESISTANCE_IMPROVED
 	blocks_air = TRUE
 	update_icon()
-	SSair.mark_for_update(src)
+	SSzas.mark_for_update(src)
 
 
 /turf/wall/low/CanPass(atom/movable/mover, turf/target, height=0, air_group=0)

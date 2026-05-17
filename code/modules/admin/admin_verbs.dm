@@ -177,8 +177,6 @@ GLOBAL_LIST_INIT(admin_verbs_admin, list(
 	/client/proc/unban_panel,
 	/client/proc/game_panel,
 	/client/proc/secrets,
-	/client/proc/fix_air_all,
-	/client/proc/fix_air,
 	/client/proc/colorooc,
 	/client/proc/stealth,
 	/client/proc/togglebuildmodeself,
@@ -404,80 +402,6 @@ GLOBAL_PROTECT(admin_verbs_possess)
 		BLACKBOX_LOG_ADMIN_VERB("Unbanning Panel")
 
 
-
-/client/proc/fix_air_all()
-	set name = "Fix air everywhere (lags)"
-	set category = "Admin"
-	ASSERT(holder)
-
-	// Strip zone of all the air it got from turfs,
-	// reset air in each individual tile, zone itself,
-	// and put now updated air back into the zone's air
-
-	// Iterating through 'world' is bad, but zones are slow to update and their
-	// 'contents' list often does not contain some tiles that must get a reset too
-	for(var/turf/turf in world)
-		if(turf.zone)
-			turf.zone.remove(turf) // Handles visual updates and a part of fire removal
-		if(turf.air)
-			turf.reset_air()
-
-	for(var/datum/zone/zone in SSair.zones)
-		// Often zone's air ends up with more gas than was put in,
-		// probably due to rounding errors or bad volume/temperature math
-		// If left alone, extra gas will leak to the individual turfs
-		// Sometimes that gas is plasma, and/or there is a lot of it
-		qdel(zone.air)
-		zone.air = new
-
-		for(var/turf/turf in zone.contents)
-			if(turf.air)
-				zone.add(turf)
-
-	log_and_message_admins("[src] fixed the air.")
-	BLACKBOX_LOG_ADMIN_VERB("Fix air")
-
-
-
-// Proc taken from yogstation, credit to nichlas0010 for the original
-/client/proc/fix_air(turf/open/T in world)
-	set name = "Fix Air"
-	set category = "Admin.Game"
-	set desc = "Fixes air in specified radius."
-
-	if(!holder)
-		to_chat(src, "Only administrators may use this command.", confidential = TRUE)
-		return
-	if(check_rights(R_ADMIN, TRUE))
-		var/range = input("Enter range:","Num",2) as num
-		message_admins("[key_name_admin(usr)] fixed air with range [range] in area [T.loc.name]")
-		usr.log_message("fixed air with range [range] in area [T.loc.name]", LOG_ADMIN)
-		var/list/zones_to_update = list()
-		for(var/turf/open/turf in range(range,T))
-			if(turf.blocks_air)
-			//skip walls
-				continue
-			if(turf.zone)
-				turf.zone.remove(turf) // Handles visual updates and a part of fire removal
-			if (turf.air)
-				turf.reset_air()
-
-			for(var/datum/zone/zone in SSair.zones)
-				if(zone.contents.Find(T) && !zones_to_update.Find(zone))
-					zones_to_update += zone
-
-
-		for(var/datum/zone/zone in zones_to_update)
-			// Find the zone this turf is in and reinstance it.
-			// Doing reset_air alone on a turf does not do it justice.
-			qdel(zone.air)
-			zone.air = new
-
-			for(var/turf/turf in zone.contents)
-				if(turf.air)
-					zone.add(turf)
-			break
-
 //allows us to set a custom colour for everythign we say in ooc
 /client/proc/colorooc()
 	set category = "Fun"
@@ -611,9 +535,9 @@ GLOBAL_PROTECT(admin_verbs_possess)
 	set name = "Kill Air"
 	set desc = "Toggle Air Processing"
 
-	SSair.can_fire = !SSair.can_fire
+	SSzas.can_fire = !SSzas.can_fire
 
-	var/msg = "[SSair.can_fire ? "Enabled" : "Disabled"] SSair processing."
+	var/msg = "[SSzas.can_fire ? "Enabled" : "Disabled"] SSzas processing."
 	log_admin("[key_name(usr)] used 'kill air'. [msg]")
 	message_admins(span_blue("[key_name_admin(usr)] used 'kill air'. [msg]"), 1)
 

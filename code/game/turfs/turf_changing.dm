@@ -46,7 +46,7 @@
 		fire.RemoveFire()
 
 	if(new_turf.is_simulated)
-		SSair.mark_for_update(src)
+		SSzas.mark_for_update(src)
 
 	new_turf.levelupdate()
 	. =  new_turf
@@ -96,5 +96,5 @@
 		if(!src.air)
 			src.make_air()
 		src.air.copy_from(other.zone.air)
-		other.zone.remove(other)
+		other.zone.remove_turf(other)
 	return 1

@@ -787,7 +787,7 @@ Turf and target are seperate in case you want to teleport some distance from a t
 						if(!X.air)
 							X.make_air()
 						X.air.copy_from(T.zone.air)
-						T.zone.remove(T)
+						T.zone.remove_turf(T)
 
 					/* Quick visual fix for some weird shuttle corner artefacts when on transit space tiles */
 					if(direction && findtext(X.icon_state, "swall_s"))
@@ -965,7 +965,7 @@ Turf and target are seperate in case you want to teleport some distance from a t
 	if(toupdate.len)
 		for(var/turf/T1 in toupdate)
 			if(T1.is_simulated)
-				SSair.mark_for_update(T1)
+				SSzas.mark_for_update(T1)
 
 	return copiedobjs
 

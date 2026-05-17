@@ -92,7 +92,7 @@
 	// NOTE, now that Initialize and LateInitialize run correctly, do we really
 	// need these two below?
 	SSmachines.setup_template_powernets(cables)
-	SSair.setup_template_machinery(atmos_machines)
+	SSzas.setup_template_machinery(atmos_machines)
 
 	// Ensure all machines in loaded areas get notified of power status
 	for(var/I in areas)

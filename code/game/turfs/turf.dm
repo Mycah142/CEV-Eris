@@ -13,7 +13,7 @@
 	var/thermite = FALSE
 	var/is_hole = FALSE // If true, turf is open to vertical transitions through it
 	var/is_wall = FALSE // True for wall turfs, but also true if they contain a low wall object
-	var/is_simulated = TRUE
+	var/simulated = TRUE
 	var/is_wet = FALSE
 	var/is_transparent = FALSE
 	var/_initialized_transparency = FALSE //used only for roundstard update_icon

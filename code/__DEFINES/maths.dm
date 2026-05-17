@@ -23,8 +23,6 @@
 // round() acts like floor(x, 1) by default but can't handle other values
 #define FLOOR(x, y) ( round((x) / (y)) * (y) )
 
-#define QUANTIZE(variable) (round(variable, 0.0001))
-
 #define CLAMP(CLVALUE,CLMIN,CLMAX) ( max( (CLMIN), min((CLVALUE), (CLMAX)) ) )
 
 // Similar to clamp but the bottom rolls around to the top and vice versa. min is inclusive, max is exclusive
@@ -267,9 +265,3 @@
 	var/mag2 = sqrt((vec2[1] ** 2) + (vec2[2] ** 2))
 	var/angle = arccos(dot / (mag1 * mag2)) // Calculate the angle based on the dot product and magnitudes of the vectors
 	return angle
-
-#define T100C 373.15 //  100.0 degrees celsius
-
-
-
-#define CELSIUS + T0C

@@ -15,8 +15,8 @@ Class Procs:
 		Returns the connection (if any) in this direction.
 		Preferable to accessing the connection directly because it checks validity.
 
-	place(datum/connection/c, d)
-		Called by SSair.connect(). Sets the connection in the specified direction to c.
+	place(connection/c, d)
+		Called by air_master.connect(). Sets the connection in the specified direction to c.
 
 	update_all()
 		Called after turf/update_air_properties(). Updates the validity of all connections on this turf.
@@ -24,23 +24,28 @@ Class Procs:
 	erase_all()
 		Called when the turf is changed with ChangeTurf(). Erases all existing connections.
 
-	check(datum/connection/c)
+Macros:
+	check(connection/c)
 		Checks for connection validity. It's possible to have a reference to a connection that has been erased.
 
 
 */
 
-/turf/var/tmp/datum/connection_manager/connections
+// macro-ized to cut down on proc calls
+#define check(c) (c && c.valid())
 
-/datum/connection_manager/
-	var/datum/connection/N
-	var/datum/connection/S
-	var/datum/connection/E
-	var/datum/connection/W
+/turf
+	var/tmp/connection_manager/connections
 
-#ifdef ZLEVELS
-	var/datum/connection/U
-	var/datum/connection/D
+/connection_manager/
+	var/connection/N
+	var/connection/S
+	var/connection/E
+	var/connection/W
+
+#ifdef MULTIZAS
+	var/connection/U
+	var/connection/D
 #endif
 
 /datum/connection_manager/proc/get(d)
@@ -58,7 +63,7 @@ Class Procs:
 			if(check(W)) return W
 			else return null
 
-		#ifdef ZLEVELS
+		#ifdef MULTIZAS
 		if(UP)
 			if(check(U)) return U
 			else return null
@@ -67,14 +72,14 @@ Class Procs:
 			else return null
 		#endif
 
-/datum/connection_manager/proc/place(datum/connection/c, d)
+/datum/connection_manager/proc/place(connection/c, d)
 	switch(d)
 		if(NORTH) N = c
 		if(SOUTH) S = c
 		if(EAST) E = c
 		if(WEST) W = c
 
-		#ifdef ZLEVELS
+		#ifdef MULTIZAS
 		if(UP) U = c
 		if(DOWN) D = c
 		#endif
@@ -84,7 +89,7 @@ Class Procs:
 	if(check(S)) S.update()
 	if(check(E)) E.update()
 	if(check(W)) W.update()
-	#ifdef ZLEVELS
+	#ifdef MULTIZAS
 	if(check(U)) U.update()
 	if(check(D)) D.update()
 	#endif
@@ -94,10 +99,9 @@ Class Procs:
 	if(check(S)) S.erase()
 	if(check(E)) E.erase()
 	if(check(W)) W.erase()
-	#ifdef ZLEVELS
+	#ifdef MULTIZAS
 	if(check(U)) U.erase()
 	if(check(D)) D.erase()
 	#endif
 
-/datum/connection_manager/proc/check(datum/connection/c)
-	return c && c.valid()
+#undef check
