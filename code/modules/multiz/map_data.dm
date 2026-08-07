@@ -123,8 +123,8 @@ GLOBAL_DATUM_INIT(maps_data, /datum/maps_data, new)
 	var/shuttle_called_message = "Jump sequence initiated. Transit procedures are now in effect. Jump in %ETA%."
 	var/shuttle_recall_message = "Jump sequence aborted, return to normal operating conditions."
 
-	var/list/usable_email_tlds = list("cev_eris.org","eris.scg","eris.net")
-	var/path = "eris"
+	var/list/usable_email_tlds = list("cev_eris.org","theseus.scg","theseus.net")
+	var/path = "theseus"
 
 	var/access_modify_region = list(
 		list(access_hos, access_change_ids, access_change_sec), // ACCESS_REGION_SECURITY
@@ -325,8 +325,8 @@ GLOBAL_DATUM_INIT(maps_data, /datum/maps_data, new)
 /obj/map_data/proc/custom_z_name(z_level)
 	return z_level
 
-/obj/map_data/eris
-	name = "Eris"
+/obj/map_data/theseus
+	name = "Theseus"
 	is_station_level = TRUE
 	is_player_level = TRUE
 	is_contact_level = TRUE
@@ -339,7 +339,7 @@ GLOBAL_DATUM_INIT(maps_data, /datum/maps_data, new)
 	holomap_legend_y = 200	// y position of the holomap legend for this z
 	holomap_smoosh = list(list(1,2,3,4,5))
 
-/obj/map_data/eris/custom_z_name(z_level)
+/obj/map_data/theseus/custom_z_name(z_level)
 	return "Deck [height - z_level + 1]"
 
 /obj/map_data/admin
