@@ -1,0 +1,5 @@
+author: HOTLINE
+delete-after: true
+changes:
+  - bugfix: Onestar Ruin mob spawns
+  - tweak: Onestar Mob typepaths

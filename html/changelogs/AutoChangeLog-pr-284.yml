@@ -1,0 +1,22 @@
+author: AltHit
+delete-after: true
+changes:
+  - rscdel: Removed nothing event
+  - rscdel: Removed old spacevines
+  - rscdel: Removed wallrot
+  - rscadd: Added separate pool of points for space weather
+  - tweak: Changed sizes of event pools
+  - tweak: Changed prices of several events
+  - bugfix: Fixed incorrect event prices that prevented some events from 
+      spawning
+  - bugfix: Fixed incorrect event points refunding
+  - tweak: Reweighed some events according to new prices
+  - rscadd: Added new message variations for space graveyard
+  - tweak: Space weather can now appear more than once per round
+  - tweak: Added space weather rotation system to minimize repetitions
+  - tweak: Changed event spawn proc to handle spawning several event at once
+  - bugfix: Fixed storyteller point gain variation to be more random as it was 
+      supposed to be
+  - tweak: Lowered delay between scheduling event and spawning it
+  - rscdel: Removed old event variation system because it stopped events from 
+      happening after several hours in the round

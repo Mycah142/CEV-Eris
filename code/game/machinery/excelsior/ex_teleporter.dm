@@ -38,7 +38,7 @@
 
 	# All prices came with the following principles established:
 		1. Excelsior wins after 2 hours with TOUGH FIGHT, they'll own 50%~ of the ship tiles in that time
-		2. Excelsior received 1 node per EX_NODE_SPAWN_COOLDOWN [3 mins as of now]
+		2. Excelsior received 1 node per EX_NODE_SPAWN_COOLDOWN [10 mins as of now]
 		3. Expected early game 						is 1 node
 		4. Expected "normal game begins" prices 	is 5 nodes
 		5. Expected "say your GGs" 					is 20 nodes
@@ -90,15 +90,17 @@
 		/obj/item/stack/cable_coil/orange = list("amount" = 30, "price" = 30),
 		)
 	var/list/circuits = list(
+		/obj/item/electronics/circuitboard/excelsior_navigation_cracker = 2000,	//
+		/obj/item/electronics/circuitboard/excelsior_turret = 50,				//
+		/obj/item/electronics/circuitboard/autolathe_disk_cloner = 50,			//
+		/obj/item/electronics/circuitboard/excelsiorreconstructor = 25,			//
+		/obj/item/electronics/circuitboard/excelsior_autodoc = 25,				//
 		/obj/item/electronics/circuitboard/excelsior_teleporter = 10,			//
 		/obj/item/electronics/circuitboard/excelsiorautolathe = 10,				//
-		/obj/item/electronics/circuitboard/excelsior_boombox = 10,				//
 		/obj/item/electronics/circuitboard/diesel = 10,							//
-		/obj/item/electronics/circuitboard/excelsiorreconstructor = 25,			//
 		/obj/item/electronics/circuitboard/excelsiorshieldwallgen = 25,			//
-		/obj/item/electronics/circuitboard/excelsior_autodoc = 25,				//
-		/obj/item/electronics/circuitboard/excelsior_turret = 50,				//
-		/obj/item/electronics/circuitboard/excelsior_navigation_cracker = 2000,	//
+		/obj/item/electronics/circuitboard/excelsior_boombox = 10,				//
+
 		)
 	var/list/excelsior_kits = list(
 		/*		[?]"Factual" means how many energy we woulda spent for 1 material instead of 30. 1:1 cost in other words. [line 48]
@@ -114,11 +116,12 @@
 		)
 	//all IKEAs are better than manual building so multiply 2
 	var/list/IKEA_list = list(
-		/obj/item/machinery_crate/excelsior/shield = 125,			// factual 62
-		/obj/item/machinery_crate/excelsior/autolathe = 40,			// factual 17
-		/obj/item/machinery_crate/excelsior/boombox = 40,			// factual 16
-		/obj/item/machinery_crate/excelsior/diesel_generator = 40, 	// factual 17
-		/obj/item/machinery_crate/excelsior/turret = 600			// factual 271 oof-
+		/obj/item/machinery_crate/excelsior/autolathe = 50,				// factual 17
+		/obj/item/machinery_crate/excelsior/boombox = 50,				// factual 16
+		/obj/item/machinery_crate/excelsior/diesel_generator = 50,		// factual 17
+		/obj/item/machinery_crate/excelsior/excelsior_teleporter = 100,	// factual 43
+		/obj/item/machinery_crate/excelsior/shield = 125,				// factual 62
+		/obj/item/machinery_crate/excelsior/turret = 600				// factual 271 oof-
 	)
 	var/entropy_value = 8
 

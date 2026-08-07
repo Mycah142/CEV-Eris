@@ -73,10 +73,11 @@
 	desc = "cryo"
 	mappath = 'maps/submaps/deepmaint_rooms/normal/cryo.dmm'
 
-/datum/map_template/deepmaint_template/room/sm_core
-	name = "sm_core"
-	desc = "sm_core"
-	mappath = 'maps/submaps/deepmaint_rooms/normal/sm_core.dmm'
+// Currently problematic, causes 400kPa and inflated air values eventually melting Deepmaint.
+// /datum/map_template/deepmaint_template/room/sm_core
+// 	name = "sm_core"
+// 	desc = "sm_core"
+// 	mappath = 'maps/submaps/deepmaint_rooms/normal/sm_core.dmm'
 
 /datum/map_template/deepmaint_template/room/hive_nest
 	name = "hive_nest"

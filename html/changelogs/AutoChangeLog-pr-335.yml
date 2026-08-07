@@ -1,6 +1,0 @@
-author: Hanz-Moon
-delete-after: true
-changes:
-  - tweak: changed the stock folding prompt to use unique action instead
-  - code_imp: changed folding code to stop it from opening a selection window 
-      when trying to fold/unfold with people nearby

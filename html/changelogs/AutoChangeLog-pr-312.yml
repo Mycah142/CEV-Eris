@@ -1,0 +1,8 @@
+author: Gooboi-2
+delete-after: true
+changes:
+  - imageadd: new .60 barrel sprite for modular boltguns, new heavy scope sprite
+      for boltguns and battle rifles, improved bolt sprite for .60 cal modular 
+      boltguns.
+  - imagedel: old modular boltgun .60 barrel sprites, heavy scope, and heavy 
+      bolt sprite.

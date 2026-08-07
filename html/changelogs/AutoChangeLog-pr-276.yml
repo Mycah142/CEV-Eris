@@ -1,0 +1,5 @@
+author: Sun-Soaked
+delete-after: true
+changes:
+  - balance: nerfs the spread and max spread distance of floor flora
+  - code_imp: reduces the tick rate of ssplants
